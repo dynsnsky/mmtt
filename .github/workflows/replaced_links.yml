@@ -18,18 +18,19 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Fetch link data from Supabase API
-        id: fetch_data 
+       - name: Fetch link data from Supabase API
+        id: fetch_data
         run: |
-          JSON_RESPONSE=$(curl -s '${{ secrets.SUPABASE_URL }}/rest/v1/svuit?select=primary_link,backup_link' \
-            -H 'apikey: ${{ secrets.SUPABASE_SERVICE_KEY }}' \
-            -H 'Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}')
+          JSON_RESPONSE=$(curl -s "${{ secrets.SUPABASE_URL }}/rest/v1/svuit?select=primary_link,backup_link" \
+            -H "apikey: ${{ secrets.SUPABASE_SERVICE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}")
 
-          # Step 2: Write the content of the variable to GITHUB_OUTPUT safely
-          # by heredoc syntax.
-          echo "json_data<<EOF" >> $GITHUB_OUTPUT
-          echo "$JSON_RESPONSE" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "Fetched $(echo "$JSON_RESPONSE" | jq length) items from Supabase."
+
+          # Use jq to escape JSON properly before passing to output
+          ESCAPED_JSON=$(echo "$JSON_RESPONSE" | jq -c '.')
+
+          echo "json_data=$ESCAPED_JSON" >> "$GITHUB_OUTPUT"
       
       - name: Run link replacement script
         run: python scripts/replace_links.py
