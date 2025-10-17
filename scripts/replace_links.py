@@ -43,7 +43,7 @@ def replace_links_in_file(file_path, link_map):
     if replaced > 0:
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        print(f"file_path}: {replaced} link(s) replaced")
+        print(f"{file_path}: {replaced} link(s) replaced")
 
 def replace_links_in_repo(repo_path, link_map):
     print(f"Loaded {len(link_map)} link mappings")
