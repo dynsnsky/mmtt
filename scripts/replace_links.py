@@ -18,10 +18,6 @@ def get_link_map_from_api():
         # Data from Supabase is an array: [{"primary_link": "...", "backup_link": "..."}, ...]
         api_data = json.loads(json_string)
 
-        # DEBUG: Print out info about the data from Supabase
-        print("DEBUG: type(api_data) =", type(api_data))
-        print("DEBUG: sample =", api_data[:2] if isinstance(api_data, list) else api_data)
-
         # Transform the array into the dictionary structure expected by the script: {"primary_link": "backup_link", ...}
         link_map = {
             item['primary_link']: item['backup_link'] 

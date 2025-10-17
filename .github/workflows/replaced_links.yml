@@ -25,14 +25,6 @@ jobs:
             -H "apikey: ${{ secrets.SUPABASE_SERVICE_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}")
 
-          echo "Fetched $(echo "$JSON_RESPONSE" | jq length) items from Supabase."
-
-          # Use jq to escape JSON properly before passing to output
-          ESCAPED_JSON=$(echo "$JSON_RESPONSE" | jq -c '.')
-
-          echo "json_data=$ESCAPED_JSON" >> "$GITHUB_OUTPUT"
-          echo "$JSON_RESPONSE" | jq .
-      
       - name: Run link replacement script
         run: python scripts/replace_links.py
         env:
