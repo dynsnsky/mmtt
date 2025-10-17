@@ -25,11 +25,10 @@ jobs:
             -H "apikey: ${{ secrets.SUPABASE_SERVICE_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}")
 
+            echo "$JSON_RESPONSE" > links_data.json
+      
       - name: Run link replacement script
-        run: python scripts/replace_links.py
-        env:
-          # Export JSON data from the previous step into LINKS_JSON
-            LINKS_JSON: ${{ steps.fetch_data.outputs.json_data }}
+        run: python scripts/replace_links.py links_data.json         
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7

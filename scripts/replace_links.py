@@ -5,10 +5,11 @@ import sys
 
 def get_link_map_from_api():
     """
-    Get JSON string from the environment variable LINKS_JSON, parse it, 
+    Get JSON string from the JSON file at json_filepath, parse it, 
     and convert the array of objects into a dictionary.
     """
-    json_string = os.getenv('LINKS_JSON')
+    with open(json_filepath, 'r', encoding='utf-8') as f:
+        json_string = f.read()
 
     if not json_string:
         print("Error: Link data not found in environment variable LINKS_JSON.")
