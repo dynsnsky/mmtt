@@ -34,7 +34,7 @@ jobs:
       
       - name: Run link replacement script
         run: python scripts/replace_links.py
-         env:
+        env:
           # Export JSON data from the previous step into LINKS_JSON
             LINKS_JSON: ${{ steps.fetch_data.outputs.json_data }}
 
