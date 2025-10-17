@@ -8,13 +8,16 @@ def get_link_map_from_api():
     Get JSON string from the JSON file at json_filepath, parse it, 
     and convert the array of objects into a dictionary.
     """
-    with open(json_filepath, 'r', encoding='utf-8') as f:
-        json_string = f.read()
+    try:
+        with open("links_data.json", 'r', encoding='utf-8') as f:
+            json_string = f.read()
+    except Exception as e:
+        print(f"Error: Cannot read JSON file 'links_data.json': {e}")
+        sys.exit(1)
 
     if not json_string:
-        print("Error: Link data not found in environment variable LINKS_JSON.")
-        sys.exit(1) # Exit with a non-zero status to fail the workflow.
-
+        print("Error: JSON file 'links_data.json' is empty.")
+        sys.exit(1)
     try:
         # Data from Supabase is an array: [{"primary_link": "...", "backup_link": "..."}, ...]
         api_data = json.loads(json_string)
