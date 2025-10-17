@@ -17,8 +17,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-
-       - name: Fetch link data from Supabase API
+          
+      - name: Fetch link data from Supabase API
         id: fetch_data
         run: |
           JSON_RESPONSE=$(curl -s "${{ secrets.SUPABASE_URL }}/rest/v1/svuit?select=primary_link,backup_link" \
@@ -34,9 +34,9 @@ jobs:
       
       - name: Run link replacement script
         run: python scripts/replace_links.py
-        env:
+         env:
           # Export JSON data from the previous step into LINKS_JSON
-          LINKS_JSON: ${{ steps.fetch_data.outputs.json_data }}
+            LINKS_JSON: ${{ steps.fetch_data.outputs.json_data }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
