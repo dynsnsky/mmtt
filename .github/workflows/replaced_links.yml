@@ -28,7 +28,11 @@ jobs:
             echo "$JSON_RESPONSE" > links_data.json
       
       - name: Run link replacement script
-        run: python scripts/replace_links.py links_data.json         
+        run: python scripts/replace_links.py links_data.json  
+
+      - name: Remove temporary JSON
+        run: |
+          rm -f links_data.json
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
